@@ -74,10 +74,10 @@ def generate_conf(tint_buttons)
   static_content = File.open('static_tint_conf').read
   File.write('generated_tint2_conf', static_content)
   File.open('generated_tint2_conf', 'a') do |f|
-    tint_buttons.each_with_index do |b, index|
+    tint_buttons.each_with_index do |(key, value), index|
       f << Button.new(
-          index + 1, b[0],
-          b[1], button_template
+          index + 1, key,
+          value, button_template
         ).render
     end
   end
