@@ -40,35 +40,34 @@ def button_template
   HEREDOC
 end
 
-normal_tint_buttons = {
-  '-      up' =>
-  "DISPLAY=':1' xdotool key Up",
-  '-      copy' =>
-  "DISPLAY=':1' xdotool key Control_L+c",
-  '-      paste' =>
-  "DISPLAY=':1' xdotool key Control_L+v",
-  '-      down' =>
-  "DISPLAY=':1' xdotool key Down",
-  '-      enterrr' =>
-  "DISPLAY=':1' xdotool key Return",
-  '-      close tab' =>
-  "DISPLAY=':1' xdotool key Control_L+w",
-  '-      backspace ' =>
-  "DISPLAY=':1' xdotool key BackSpace",
-  '-      blabla(POC) panel' =>
-  "DISPLAY=':1' ruby generate_conf.rb bla && killall -SIGUSR1 tint2"
+def key(k)
+  "DISPLAY=':1' xdotool key #{k}"
+end
+
+def switch_panel(p)
+  "DISPLAY=':1' ruby generate_conf.rb #{p} && killall -SIGUSR1 tint2"
+end
+
+panels = {
+  normal: {
+    up: key("Up"),
+    copy: key("Control_L+c"),
+    paste: key("Control_L+v"),
+    down: key("Down"),
+    enter: key("Return"),
+    close_tab: key("Control_L+w"),
+    backspace: key("BackSpace"),
+    wasd_panel: switch_panel(:wasd)
+  },
+  wasd: {
+    w: key("w"),
+    a: key("a"),
+    s: key("s"),
+    d: key("d"),
+    normal_panel: switch_panel(:normal)
+  }
 }
 
-blabla_tint_buttons = {
-  '-      bla' =>
-    `echo bla`,
-  '-      blabla' =>
-    `echo blabla`,
-  '-      blablabla' =>
-    `echo blablabla`,
-  '-      normal panel' =>
-    "DISPLAY=':1' ruby generate_conf.rb normal && killall -SIGUSR1 tint2"
-}
 
 def generate_conf(tint_buttons)
   static_content = File.open('static_tint_conf').read
@@ -76,19 +75,15 @@ def generate_conf(tint_buttons)
   File.open('generated_tint2_conf', 'a') do |f|
     tint_buttons.each_with_index do |(key, value), index|
       f << Button.new(
-          index + 1, key,
+          index + 1, "-      #{key}",
           value, button_template
         ).render
     end
   end
 end
 
-case ARGV[0]
-when 'normal'
-  generate_conf(normal_tint_buttons)
-when 'bla'
-  generate_conf(blabla_tint_buttons)
+if ARGV[0]
+  generate_conf(panels[ARGV[0].to_sym])
 else
-  puts 'Missing argument: button_set. Using normal buttons'
-  generate_conf(normal_tint_buttons)
+  puts 'Missing argument: button_set.'
 end
