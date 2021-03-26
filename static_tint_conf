@@ -72,10 +72,10 @@ border_color_pressed = #000000 100
 
 #-------------------------------------
 # Panel
-panel_items = PPPPPPPP
-panel_size = 100% 300
+panel_items = PPPPPPPPPPPP
+panel_size = 50% 300
 panel_margin = 0 0
-panel_padding = 2 0 20
+panel_padding = 2 0 6
 panel_background_id = 1
 wm_menu = 1
 panel_dock = 0

@@ -28,6 +28,7 @@ def button_template
   button_mclick_command =
   button_uwheel_command =
   button_dwheel_command =
+  button_font = 8
   button_font_color = #d41e9d 100
   button_padding = 0 0
   button_background_id = 0
@@ -66,13 +67,32 @@ panels = {
     enter: key('Return'),
     close_tab: key('Control_L+w'),
     backspace: key('BackSpace'),
-    wasd_panel: switch_panel(:wasd)
+    undo: key('Control_L+z'),
+    redo: key('Control_L+Shift_L+z'),
+    wasd_panel: switch_panel(:wasd),
+    nums_panel: switch_panel(:nums)
+
   },
   wasd: {
     w: key('w'),
     a: key('a'),
     s: key('s'),
     d: key('d'),
+    normal_panel: switch_panel(:normal),
+    nums_panel: switch_panel(:nums)
+  },
+  nums: {
+    k0: key('0'),
+    k1: key('1'),
+    k2: key('2'),
+    k3: key('3'),
+    k4: key('4'),
+    k5: key('5'),
+    k6: key('6'),
+    k7: key('7'),
+    k8: key('8'),
+    k9: key('9'),
+    wasd_panel: switch_panel(:wasd),
     normal_panel: switch_panel(:normal)
   }
 }
